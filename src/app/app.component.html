@@ -1,0 +1,41 @@
+<div class="wrapper">
+	<div class="col">
+    <app-sidemenu></app-sidemenu>
+	</div>
+	<div class="col-right">
+		<div class="menu">
+			<ul class="floatLeft">
+				<li class="selected"><h1 class="m1">DATA SOURCE</h1></li>
+			</ul>
+      <button class="floatRight m1" (click)="crud.getData('/getData')">Refresh</button>
+      <button class="floatRight m1" (click)="variable.editor.clearModuleSelected()">Clear</button>
+      <button class="floatRight m1" [disabled]="!variable.listOfDraggedFiles.data.length || !variable.listOfDraggedFiles.action" (click)="dataSourceService.openPopup('OUTPUT', 'output')"><i class="fas fa-play"></i> Run</button>
+		</div>
+		<div id="drawflow" (drop)="dragDropService.drop($event)" (dragover)="dragDropService.allowDrop($event)">
+			<div class="bar-zoom">
+				<i class="fas fa-search-minus" (click)="variable.editorzoom_out()"></i>
+				<i class="fas fa-search" (click)="variable.editorzoom_reset()"></i>
+				<i class="fas fa-search-plus" (click)="variable.editorzoom_in()"></i>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="popupWrapper" [class.active]="variable.popupAction === 'output'" *ngIf="variable.popupFlag">
+  <div class="popupContainer">
+    <table class="w100 noBorder m0">
+      <tr>
+        <td class="p0"><h2 class="m0">{{variable.popupTitle | uppercase}}</h2></td>
+        <td class="text-right p0"><span class="closeIcon" (click)="variable.popupFlag = false"></span></td>
+      </tr>
+    </table>
+    <app-input-popup *ngIf="variable.popupAction === 'input'"></app-input-popup>
+    <app-action-popup *ngIf="variable.popupAction === 'action'"></app-action-popup>
+    <app-analysis-popup *ngIf="variable.popupAction === 'analysis'"></app-analysis-popup>
+    <app-transformation-popup *ngIf="variable.popupAction === 'transformation'"></app-transformation-popup>
+    <app-output-popup *ngIf="variable.popupAction === 'output'"></app-output-popup>
+    <app-file-data *ngIf="variable.popupAction === 'file-data'"></app-file-data>
+    <app-file-info *ngIf="variable.popupAction === 'file-info'"></app-file-info>
+    <app-file-head *ngIf="variable.popupAction === 'file-head'"></app-file-head>
+    <app-detail *ngIf="variable.popupAction === 'detail'"></app-detail>
+  </div>
+</div>

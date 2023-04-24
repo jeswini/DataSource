@@ -1,0 +1,14 @@
+<table>
+    <ng-container *ngIf="variable.selectedRecordForDetail.length">
+        <tr>
+            <th *ngFor="let head of getDataHeader(variable.selectedRecordForDetail[0])">{{head}}</th>
+        </tr>
+            <tr *ngFor="let data of variable.selectedRecordForDetail">
+            <td *ngFor="let head of getDataHeader(variable.selectedRecordForDetail[0]); let i = index">{{data[head] ? data[head] : (data[i] ? data[i] : '0')}}</td>
+        </tr>
+    </ng-container>
+    <tr *ngIf="!variable.selectedRecordForDetail.length">
+        <td>No Data Found</td>
+    </tr>
+</table>
+  
