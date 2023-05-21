@@ -853,7 +853,9 @@
               } else {
                 _param = {
                   "ActionName": "Encode",
-                  "fileList": [],
+                  "fileList": this.variable.listOfDraggedFiles.data.map(function (data) {
+                    return data.fileDetail.filePath;
+                  }),
                   "mergeColumn": "",
                   "projectColumns": [],
                   "outputFileName": "",
@@ -920,6 +922,46 @@
                   _this7.variable.outputTable.data = typeof resp.jsonData === 'string' ? JSON.parse(resp.jsonData) : resp.jsonData;
                   _this7.variable.outputTable.header = Object.keys(_this7.variable.outputTable.data[0]);
                 }
+              });
+            } else if (this.variable.popupSubTitle === 'uppercase') {
+              var _param4 = {
+                "ActionName": "UPPERCASE",
+                "fileList": this.variable.listOfDraggedFiles.data.map(function (data) {
+                  return data.fileDetail.filePath;
+                }),
+                "mergeColumn": "",
+                "projectColumns": [],
+                "outputFileName": "C:\\Users\\ogjes\\Downloads\\Output.png",
+                "sortColumnNames": this.variable.popupSubTitle === 'uppercase' ? funParam : [],
+                "encodingColumns": [],
+                "jsonData": this.variable.outputTable.data.length ? JSON.stringify(this.variable.outputTable.data) : JSON.stringify([])
+              };
+              this.crud.handleMergeAction('/action/', _param4).subscribe(function (resp) {
+                console.log("Result from Sort: ", resp);
+                _this7.variable.outputTable.data = resp; // @ts-ignore
+
+                _this7.variable.stateWiseData[_this7.variable.popupSubTitle] = resp;
+                _this7.variable.outputTable.header = Object.keys(resp[0]);
+              });
+            } else if (this.variable.popupSubTitle === 'lowercase') {
+              var _param5 = {
+                "ActionName": "lowercase",
+                "fileList": this.variable.listOfDraggedFiles.data.map(function (data) {
+                  return data.fileDetail.filePath;
+                }),
+                "mergeColumn": "",
+                "projectColumns": [],
+                "outputFileName": "C:\\Users\\ogjes\\Downloads\\Output.png",
+                "sortColumnNames": this.variable.popupSubTitle === 'lowercase' ? funParam : [],
+                "encodingColumns": [],
+                "jsonData": this.variable.outputTable.data.length ? JSON.stringify(this.variable.outputTable.data) : JSON.stringify([])
+              };
+              this.crud.handleMergeAction('/action/', _param5).subscribe(function (resp) {
+                console.log("Result from Sort: ", resp);
+                _this7.variable.outputTable.data = resp; // @ts-ignore
+
+                _this7.variable.stateWiseData[_this7.variable.popupSubTitle] = resp;
+                _this7.variable.outputTable.header = Object.keys(resp[0]);
               });
             }
 
@@ -1726,12 +1768,12 @@
                 break;
 
               case "uppercase":
-                var uppercase = "\n        <div>\n          <div class=\"title-box\">Upper Case [TEXT]</div>\n        </div>\n        ";
+                var uppercase = "\n        <div>\n          <div class=\"title-box\"><span id=\"text\" class=\"iconInfo\">UpperCase</span> [TEXT]</div>\n        </div>\n        ";
                 this.variable.editor.addNode("uppercase", 1, 1, pos_x, pos_y, "uppercase", {}, uppercase);
                 break;
 
               case "lowercase":
-                var lowercase = "\n        <div>\n          <div class=\"title-box\">Lower Case [text]</div>\n        </div>\n        ";
+                var lowercase = "\n        <div>\n          <div class=\"title-box\"><span id=\"text\" class=\"iconInfo\">LowerCase</span> [text]</div>\n        </div>\n        ";
                 this.variable.editor.addNode("lowercase", 1, 1, pos_x, pos_y, "lowercase", {}, lowercase);
                 break;
 

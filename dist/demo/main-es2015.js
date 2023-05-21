@@ -547,7 +547,7 @@ let DataSourceService = class DataSourceService {
             else {
                 param = {
                     "ActionName": "Encode",
-                    "fileList": [],
+                    "fileList": this.variable.listOfDraggedFiles.data.map(data => data.fileDetail.filePath),
                     "mergeColumn": "",
                     "projectColumns": [],
                     "outputFileName": "",
@@ -614,6 +614,44 @@ let DataSourceService = class DataSourceService {
                     this.variable.outputTable.data = typeof resp.jsonData === 'string' ? JSON.parse(resp.jsonData) : resp.jsonData;
                     this.variable.outputTable.header = Object.keys(this.variable.outputTable.data[0]);
                 }
+            });
+        }
+        else if (this.variable.popupSubTitle === 'uppercase') {
+            const param = {
+                "ActionName": "UPPERCASE",
+                "fileList": this.variable.listOfDraggedFiles.data.map(data => data.fileDetail.filePath),
+                "mergeColumn": "",
+                "projectColumns": [],
+                "outputFileName": "C:\\Users\\ogjes\\Downloads\\Output.png",
+                "sortColumnNames": (this.variable.popupSubTitle === 'uppercase') ? funParam : [],
+                "encodingColumns": [],
+                "jsonData": this.variable.outputTable.data.length ? JSON.stringify(this.variable.outputTable.data) : JSON.stringify([])
+            };
+            this.crud.handleMergeAction('/action/', param).subscribe(resp => {
+                console.log("Result from Sort: ", resp);
+                this.variable.outputTable.data = resp;
+                // @ts-ignore
+                this.variable.stateWiseData[this.variable.popupSubTitle] = resp;
+                this.variable.outputTable.header = Object.keys(resp[0]);
+            });
+        }
+        else if (this.variable.popupSubTitle === 'lowercase') {
+            const param = {
+                "ActionName": "lowercase",
+                "fileList": this.variable.listOfDraggedFiles.data.map(data => data.fileDetail.filePath),
+                "mergeColumn": "",
+                "projectColumns": [],
+                "outputFileName": "C:\\Users\\ogjes\\Downloads\\Output.png",
+                "sortColumnNames": (this.variable.popupSubTitle === 'lowercase') ? funParam : [],
+                "encodingColumns": [],
+                "jsonData": this.variable.outputTable.data.length ? JSON.stringify(this.variable.outputTable.data) : JSON.stringify([])
+            };
+            this.crud.handleMergeAction('/action/', param).subscribe(resp => {
+                console.log("Result from Sort: ", resp);
+                this.variable.outputTable.data = resp;
+                // @ts-ignore
+                this.variable.stateWiseData[this.variable.popupSubTitle] = resp;
+                this.variable.outputTable.header = Object.keys(resp[0]);
             });
         }
         this.variable.actionCommonColumns = [];
@@ -1138,7 +1176,7 @@ let DefaultDragDropService = class DefaultDragDropService {
             case "uppercase":
                 let uppercase = `
         <div>
-          <div class="title-box">Upper Case [TEXT]</div>
+          <div class="title-box"><span id="text" class="iconInfo">UpperCase</span> [TEXT]</div>
         </div>
         `;
                 this.variable.editor.addNode("uppercase", 1, 1, pos_x, pos_y, "uppercase", {}, uppercase);
@@ -1146,7 +1184,7 @@ let DefaultDragDropService = class DefaultDragDropService {
             case "lowercase":
                 let lowercase = `
         <div>
-          <div class="title-box">Lower Case [text]</div>
+          <div class="title-box"><span id="text" class="iconInfo">LowerCase</span> [text]</div>
         </div>
         `;
                 this.variable.editor.addNode("lowercase", 1, 1, pos_x, pos_y, "lowercase", {}, lowercase);

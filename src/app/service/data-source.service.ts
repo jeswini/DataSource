@@ -146,7 +146,7 @@ export class DataSourceService {
       } else {
         param = {
           "ActionName" : "Encode",
-          "fileList": [],
+          "fileList":  this.variable.listOfDraggedFiles.data.map(data => data.fileDetail.filePath),
           "mergeColumn" : "",
           "projectColumns" : [],
           "outputFileName" : "",
@@ -178,7 +178,8 @@ export class DataSourceService {
         console.log(resp);
         this.variable.accuracy = resp['accuracy'];
       });
-    } else if (this.variable.popupSubTitle === 'correlation') {
+    } else if (this.variable.popupSubTitle === 'correlation') 
+    {
       const param = {
         "ActionName" : "Correlation",
         "fileList": [],
@@ -189,7 +190,8 @@ export class DataSourceService {
         "encodingColumns" : [],
         "jsonData" : this.variable.outputTable.data.length ? JSON.stringify(this.variable.outputTable.data) : JSON.stringify([])
       }
-      this.crud.handleMergeAction('/action/', param).subscribe(resp => {
+      this.crud.handleMergeAction('/action/', param).subscribe(resp => 
+      {
         console.log(resp);
         // @ts-ignore
         this.variable.stateWiseData[this.variable.popupSubTitle] = resp;
@@ -212,9 +214,51 @@ export class DataSourceService {
         }
       });
     }
+    else if(this.variable.popupSubTitle === 'uppercase') {
+      const param = {
+        "ActionName" : "UPPERCASE",
+        "fileList": this.variable.listOfDraggedFiles.data.map(data => data.fileDetail.filePath),
+        "mergeColumn" : "",
+        "projectColumns" : [],
+        "outputFileName" : "C:\\Users\\ogjes\\Downloads\\Output.png",
+        "sortColumnNames" : (this.variable.popupSubTitle === 'uppercase') ? funParam : [],
+        "encodingColumns" : [],
+        "jsonData" : this.variable.outputTable.data.length ? JSON.stringify(this.variable.outputTable.data) : JSON.stringify([])
+      }
+      this.crud.handleMergeAction('/action/', param).subscribe(resp => {
+        console.log("Result from Sort: ", resp);
+        this.variable.outputTable.data = resp;
+        // @ts-ignore
+        this.variable.stateWiseData[this.variable.popupSubTitle] = resp;
+        this.variable.outputTable.header = Object.keys(resp[0]);
+      });
+
+    }
+    else if(this.variable.popupSubTitle === 'lowercase') {
+      const param = {
+        "ActionName" : "lowercase",
+        "fileList": this.variable.listOfDraggedFiles.data.map(data => data.fileDetail.filePath),
+        "mergeColumn" : "",
+        "projectColumns" : [],
+        "outputFileName" : "C:\\Users\\ogjes\\Downloads\\Output.png",
+        "sortColumnNames" : (this.variable.popupSubTitle === 'lowercase') ? funParam : [],
+        "encodingColumns" : [],
+        "jsonData" : this.variable.outputTable.data.length ? JSON.stringify(this.variable.outputTable.data) : JSON.stringify([])
+      }
+      this.crud.handleMergeAction('/action/', param).subscribe(resp => {
+
+        console.log("Result from Sort: ", resp);
+        this.variable.outputTable.data = resp;
+        // @ts-ignore
+        this.variable.stateWiseData[this.variable.popupSubTitle] = resp;
+        this.variable.outputTable.header = Object.keys(resp[0]);
+      });
+
+    }
     this.variable.actionCommonColumns = [];
     this.variable.popupFlag = false;
   }
+  
 
   public getActionSummary() {
     let summary = '';

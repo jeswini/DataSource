@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { VariableService } from './variable.service';
 import { DataSourceService } from './data-source.service';
+import { CrudService } from './crud.service';
+import {TableUtil} from '../tableUtil';
 
 @Injectable({
   providedIn: 'root'
@@ -228,7 +230,7 @@ export class DefaultDragDropService {
       case "uppercase":
         let uppercase = `
         <div>
-          <div class="title-box">Upper Case [TEXT]</div>
+          <div class="title-box"><span id="text" class="iconInfo">UpperCase</span> [TEXT]</div>
         </div>
         `;
         this.variable.editor.addNode(
@@ -245,7 +247,7 @@ export class DefaultDragDropService {
       case "lowercase":
         let lowercase = `
         <div>
-          <div class="title-box">Lower Case [text]</div>
+          <div class="title-box"><span id="text" class="iconInfo">LowerCase</span> [text]</div>
         </div>
         `;
         this.variable.editor.addNode(
